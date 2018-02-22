@@ -1,0 +1,11 @@
+group 'org.multiplat.demo'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'kotlin'
+
+dependencies {
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
+    compile project(":lib-jvm")
+}
+
+

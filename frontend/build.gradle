@@ -1,0 +1,63 @@
+buildscript {
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-frontend-plugin:$kotlinFrontendVersion"
+    }
+}
+
+apply plugin: 'org.jetbrains.kotlin.frontend'
+apply plugin: 'kotlin2js'
+apply plugin: 'idea'
+
+kotlinFrontend {
+    downloadNodeJsVersion = 'latest'
+
+    npm {
+        dependency "style-loader"
+
+        devDependency("karma")
+    }
+
+    sourceMaps = true
+
+    webpackBundle {
+    	bundleName = "main"
+        contentPath = file('src/main/web')
+        proxyUrl = "http://localhost:9090"
+    }
+}
+
+def sharedJsProject = project(":lib-js")
+
+dependencies {
+    compile "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlinVersion"
+    compile sharedJsProject
+
+    compile "org.jetbrains.kotlin:kotlin-test-js:$kotlinVersion"
+}
+
+compileKotlin2Js {
+    dependsOn 'copySharedJs'
+    kotlinOptions{
+        metaInfo = true
+        outputFile = "$buildDir.path/js/${project.name}.js"
+        sourceMap = true
+        moduleKind = 'commonjs'
+        main = "call"
+    }
+}
+
+compileTestKotlin2Js {
+    kotlinOptions{
+        metaInfo = true
+        sourceMap = true
+        moduleKind = 'commonjs'
+    }
+}
+
+task copySharedJs(type: Sync) {
+    dependsOn ":lib-js:build"
+    from "${sharedJsProject.buildDir.path}/js"
+    into "src/main/web/lib"
+}
+
+bundle.dependsOn(copySharedJs)

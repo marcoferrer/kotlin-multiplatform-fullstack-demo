@@ -1,0 +1,29 @@
+
+apply plugin: 'kotlin-platform-js'
+apply plugin: 'com.moowork.node'
+
+dependencies {
+    compile "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlinVersion"
+
+    expectedBy project(":lib-common")
+
+    testCompile "org.jetbrains.kotlin:kotlin-test-js:$kotlinVersion"
+}
+
+
+compileKotlin2Js {
+    dependsOn 'copyPackageJson'
+    kotlinOptions{
+        metaInfo = true
+        outputFile = "$buildDir.path/js/${project.name}.js"
+        sourceMap = true
+        moduleKind = 'commonjs'
+        main = "call"
+    }
+}
+
+
+task copyPackageJson(type: Sync) {
+    from "package.json"
+    into "$buildDir/js"
+}

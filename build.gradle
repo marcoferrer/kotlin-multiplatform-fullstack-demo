@@ -1,0 +1,39 @@
+group = 'org.sharedcode.demo'
+version = '0.0.1-SNAPSHOT'
+
+subprojects { p ->
+    p.buildscript {
+        ext.kotlinVersion = '1.2.21'
+        ext.kotlinFrontendVersion = "0.0.27"
+
+        repositories {
+            mavenLocal()
+            jcenter()
+            maven { url "https://plugins.gradle.org/m2/" }
+            maven { url "http://dl.bintray.com/kotlin/kotlin-eap" }
+        }
+
+        dependencies {
+            classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+            classpath 'com.moowork.gradle:gradle-node-plugin:1.2.0'
+        }
+    }
+}
+
+
+subprojects {
+    repositories {
+        mavenCentral()
+        maven { url "http://dl.bintray.com/kotlin/ktor" }
+    }
+}
+
+subprojects {
+    ext.kotlinVersion = "1.2.21"
+    ext.kotlinFrontendVersion = "0.0.27"
+
+    repositories {
+        mavenLocal()
+        jcenter()
+    }
+}

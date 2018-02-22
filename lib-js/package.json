@@ -1,0 +1,16 @@
+{
+  "name": "lib-js",
+  "version": "1.0.0",
+  "description": "multiplatform kotlin lib",
+  "main": "lib-js.js",
+  "dependencies": {},
+  "devDependencies": {
+    "kotlin": "^1.2.21",
+    "mocha": "^5.0.1"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "author": "",
+  "license": "ISC"
+}
